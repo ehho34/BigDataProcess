@@ -1,50 +1,60 @@
 #!/usr/bin/python3
 
-from openpyxl import load_workbook
-wb = openpyxl.load_workbook('student.xlsx')
+import openpyxl
+wb =openpyxl.load_workbook('student.xlsx')
 sheet = wb.get_sheet_by_name('Sheet1')
 
+
 for i in range (len(sheet['a'])-1):
-  midterm = sheet.cell(row=2+i, column=3).value
-  final = sheet.cell(row=2+i, column=4).value
-  homework = sheet.cell(row=2+i, column=5).value
-  attendance = sheet.cell(row=2+i, column=6).value
-  
-  sheet.cell(row=2+i, column=7).value = midterm*0.2 + final*0.4 + homework*0.39 + attendance*0.1
+  midterm_score = sheet.cell(row=2+i, column=3).value
+  final_score = sheet.cell(row=2+i, column=4).value
+  homework_score = sheet.cell(row=2+i, column=5).value
+  attendance_score = sheet.cell(row=2+i, column=6).value
 
-  total = sheet.cell(row=2+i, column=7).value
-  
-Ap = int(0.15 * (len(sheet['a'])-1))
-Az = int(0.30 * (len(sheet['a'])-1))
-Bp = int(0.40 * (len(sheet['a'])-1))
-Bz = int(0.50 * (len(sheet['a'])-1))
-Cp = int(0.75 * (len(sheet['a'])-1))
-Cz = int(1.00 * (len(sheet['a'])-1))
 
-grade = []
+  sheet.cell(row=2+i, column=7).value = midterm_score * 0.3 + final_score * 0.35 + homework_score * 0.34 + attendance_score * 1
+
+  total_score = sheet.cell(row=2+i, column=7).value
+
+ 
+A_plus = int(0.15 * (len(sheet['a'])-1))
+A_zero = int(0.30 * (len(sheet['a'])-1))
+B_plus = int(0.40 * (len(sheet['a'])-1))
+B_zero = int(0.50 * (len(sheet['a'])-1))
+C_plus = int(0.75 * (len(sheet['a'])-1))
+C_zero = int(1.00 * (len(sheet['a'])-1))
+
+ 
+score = []
 result = []
 for i in range (len(sheet['a'])-1):
-  grade.append(sheet.cell(row=2+i, column=7).value)
-  
-  
-for i in range(0, len(grade)):
+  score.append(sheet.cell(row=2+i, column=7).value)
+ 
+
+for i in range(0, len(score)):
     r = 1
-    for j in range(0, len(grade)):
-        if grade[i] < grade[j]: r += 1
+    for j in range(0, len(score)):
+        if score[i] < score[j]: r += 1
     result.append(r)
-    
+
+ 
+
 for i in range(len(result)):
-  if result[i] <= Ap:
+  if result[i] <= A_plus:
     sheet.cell(row=2+i, column=8).value = "A+"
-  elif result[i] > Ap and result[i] <= Az:
+  elif result[i] > A_plus and result[i] <= A_zero:
     sheet.cell(row=2+i, column=8).value = "A0"
-  elif result[i] > Az and result[i] <= Bp:
+  elif result[i] > A_zero and result[i] <= B_plus:
     sheet.cell(row=2+i, column=8).value = "B+"
-  elif result[i] > Bp and result[i] <= Bz:
+  elif result[i] > B_plus and result[i] <= B_zero:
     sheet.cell(row=2+i, column=8).value = "B0"
-  elif result[i] > Bz and result[i] <= Cp:
+  elif result[i] > B_zero and result[i] <= C_plus:
     sheet.cell(row=2+i, column=8).value = "C+"
-  elif result[i] > Cp and result[i] <= Cz:
+  elif result[i] > C_plus and result[i] <= C_zero:
     sheet.cell(row=2+i, column=8).value = "C0"
-    
+
+ 
 wb.save('student.xlsx')
+
+
+
